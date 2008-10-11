@@ -21,6 +21,8 @@ HOSTNAME="host"
 
 mkdir -p "${mountpoint}"
 
+[ -d /root/selinux ] && mkdir -p /root/selinux
+
 # Create /etc/mtab for debug purpose and future syncs
 if [ ! -d /etc ]
 then
