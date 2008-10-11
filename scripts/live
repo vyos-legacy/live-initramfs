@@ -344,9 +344,9 @@ Arguments ()
 			url=*)
 				location="${ARGUMENT#url=}"
 
-				mount -o bind /sys /root/sys
-				mount -o bind /proc /root/proc
-				mount -o bind /dev /root/dev
+				mount -n -o bind -t sysfs /sys /root/sys
+				mount -n -o bind -t proc /proc /root/proc
+				mount -n -o bind -t udev /dev /root/dev
 
 				mkdir -p /root/var/run/network
 				chroot /root dhclient eth0
