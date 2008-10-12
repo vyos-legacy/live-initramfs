@@ -20,6 +20,8 @@ esac
 
 # live-initramfs header
 
+[ -d /root/selinux ] || mkdir /root/selinux
+
 if [ -z "${HOOK}" ]
 then
 	exit 0

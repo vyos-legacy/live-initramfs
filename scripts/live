@@ -21,7 +21,9 @@ HOSTNAME="host"
 
 mkdir -p "${mountpoint}"
 
+log_begin_msg "Customized live initramfs-tools"
 [ -d /root/selinux ] && mkdir -p /root/selinux
+log_end_msg
 
 # Create /etc/mtab for debug purpose and future syncs
 if [ ! -d /etc ]

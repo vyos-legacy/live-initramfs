@@ -1,0 +1,15 @@
+build-stamp
+debian/.changelog.dch.swp
+debian/files
+debian/live-initramfs.debhelper.log
+debian/live-initramfs.postinst.debhelper
+debian/live-initramfs.postrm.debhelper
+debian/live-initramfs/
+manpages/html-stamp
+manpages/live-initramfs.en.7
+manpages/live-initramfs.en.7.html
+manpages/live-initramfs.en.7.xml
+manpages/live-snapshot.en.1
+manpages/live-snapshot.en.1.html
+manpages/live-snapshot.en.1.xml
+manpages/man-stamp
