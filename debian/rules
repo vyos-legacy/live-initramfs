@@ -46,6 +46,7 @@ install: build
 binary-arch: build install
 
 binary-indep: build install
+	rm -f debian/files
 	dh_testdir
 	dh_testroot
 	dh_installchangelogs docs/ChangeLog
