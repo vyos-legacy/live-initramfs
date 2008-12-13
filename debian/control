@@ -1,8 +1,7 @@
 Source: live-initramfs
 Section: misc
 Priority: optional
-Maintainer: Debian Live <debian-live@lists.debian.org>
-Uploaders: Daniel Baumann <daniel@debian.org>
+Maintainer: Vyatta Package Maintainers <maintainers@vyatta.com>
 Build-Depends: debhelper (>= 5)
 Build-Depends-Indep: asciidoc, docbook-xsl, xsltproc
 Standards-Version: 3.8.0
