@@ -29,6 +29,9 @@ fi
 
 log_begin_msg "Setting up locales"
 
+# Cosmetic line wrapping for output of local-gen
+echo
+
 # live-initramfs script
 
 if [ -e /root/etc/default/locale ]
@@ -101,7 +104,10 @@ then
 
 	if [ -d /root/etc/default/kdm.d/ ]
 	then
-		printf 'LANGUAGE=%s\n' "${LANG}" >> /root/etc/default/kdm.d/live-autologin
+		if ! grep -qs "^LANGUAGE" "${LANG}"
+		then
+			printf 'LANGUAGE=%s\n' "${LANG}" >> /root/etc/default/kdm.d/live-autologin
+		fi
 	elif [ -f /root/etc/kde3/kdm/kdmrc ]
 	then
 		sed -i -r -e "s/#Language=.*/Language=${language}/" \
@@ -110,10 +116,16 @@ then
 
 	really_export LANG
 
-	printf 'LANG="%s"\n' "${LANG}" >> /root/etc/default/locale
-	printf 'LANG="%s"\n' "${LANG}" >> /root/etc/environment
+	printf 'LANG="%s"\n' "${LANG}" > /root/etc/default/locale
+	printf 'LANG="%s"\n' "${LANG}" > /root/etc/environment
 	printf '%s %s\n' "${LANG}" "${codepage}" > /root/etc/locale.gen
-	chroot /root /usr/sbin/locale-gen
+
+	if [ -z "${SILENT}" ]
+	then
+		chroot /root /usr/sbin/locale-gen
+	else
+		chroot /root /usr/sbin/locale-gen > /dev/null 2>&1
+	fi
 fi
 
 log_end_msg

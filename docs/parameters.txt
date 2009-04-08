@@ -1,7 +1,7 @@
 Boot Parameters for Debian Live
 -------------------------------
 
-Updated for live-initramfs 1.113.1-1 on 2007-11-26.
+Updated for live-initramfs 1.156.1-1 on 2009-02-08.
 
 These options (can be combined) work from the bootloader prompt:
 
@@ -38,7 +38,8 @@ live nosudo
 live swapon
 live nouser
 live noxautoconfig
-live persistent
+live persistent[=nofiles]
+live persistent-path=PATH
 live {preseed/file|file}=FILE
 live package/question=VALUE
 live quickreboot
