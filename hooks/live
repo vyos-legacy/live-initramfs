@@ -80,8 +80,9 @@ then
         manual_add_modules cifs
 fi
 
-# Filesystem: ext3
+# Filesystem: ext3/ext4
 manual_add_modules ext3
+manual_add_modules ext4
 
 # Filesystem: jffs2
 manual_add_modules jffs2
@@ -147,7 +148,10 @@ else
 	copy_exec /sbin/udevtrigger /sbin
 	copy_exec /sbin/udevsettle /sbin
 fi
-copy_exec /usr/bin/udevinfo /bin
+if [ -x /usr/bin/udevinfo ]
+then
+	copy_exec /usr/bin/udevinfo /bin
+fi
 
 # Program: wget
 if [ -x /usr/bin/wget ]
