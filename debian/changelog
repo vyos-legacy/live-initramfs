@@ -1,3 +1,36 @@
+live-initramfs (1.157.1-1+vyatta+1) unstable; urgency=low
+
+  [ rbalocca ]
+  * Specify the file system type on "mount -o bind" cmds
+  * Add /selinux
+  * Handle /selinux not found error messages by creating this dir
+  * Create a vyatta version #
+
+  [ An-Cheng Huang ]
+  * add support for development build
+
+  [ Mark O'Brien ]
+  * 3.2.0
+
+  [ An-Cheng Huang ]
+  * update maintainer information
+  * "files" file should be removed before package build
+  * 1.139.1-3-vyatta2
+
+  [ Daniel Baumann ]
+  * Correcting fstab handling to not always append entries forever when
+    using persistency.
+  * Correcting kdm live-autologin handling to not always append entries
+    forever when using persistency.
+  * Correcting handling of locale default and environment handling to
+    not always append entries forever when using persistency.
+  * Correcting swap partition handling in fstab to not always append
+    entries forever when using persistency.
+  * Applying patch from Michael Prokop <mika@grml.org> to support udev
+    >= 0.140.
+
+ -- An-Cheng Huang <ancheng@vyatta.com>  Wed, 08 Apr 2009 18:42:36 -0700
+
 live-initramfs (1.157.1-1) unstable; urgency=medium
 
   [ Daniel Baumann ]
