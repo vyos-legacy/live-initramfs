@@ -1,5 +1,6 @@
+.*.swp
+
 build-stamp
-debian/.changelog.dch.swp
 debian/files
 debian/live-initramfs.debhelper.log
 debian/live-initramfs.postinst.debhelper
