@@ -104,7 +104,7 @@ where_is_mounted ()
 	if grep -q "^${device} " /proc/mounts
 	then
 		# return the first found
-		grep "^${device} " /proc/mounts | cut -f2 -d ' '
+		grep "^${device} " /proc/mounts | head -1 | cut -f2 -d ' '
 	fi
 }
 
@@ -273,6 +273,17 @@ setup_loop ()
 	panic "No loop devices available"
 }
 
+already_mounted ()
+{
+	device=${1}
+	mountp=${2}
+
+	if grep -q "^${device} ${mountp} " /proc/mounts; then
+		return 0
+	fi
+	return 1
+}
+
 try_mount ()
 {
 	dev="${1}"
@@ -289,7 +300,10 @@ try_mount ()
 			mount -o remount,"${opts}" "${dev}" "${old_mountp}" || panic "Remounting ${dev} ${opts} on ${old_mountp} failed"
 		fi
 
-		mount -o bind "${old_mountp}" "${mountp}" || panic "Cannot bind-mount ${old_mountp} on ${mountp}"
+		if ! already_mounted "${dev}" "${mountp}"; then
+			mount -o bind "${old_mountp}" "${mountp}" \
+				|| panic "Cannot bind-mount ${old_mountp} on ${mountp}"
+		fi
 	else
 		if [ -z "${fstype}" ]
 		then
