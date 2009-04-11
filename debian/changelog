@@ -1,3 +1,12 @@
+live-initramfs (1.157.1-1+vyatta+2) unstable; urgency=low
+
+  * fix breakage when r/o and r/w images are on the same partition
+  * remove disable_updateinitramfs hook
+  * update .gitignore
+  * add directory-backed live boot mechanism
+
+ -- An-Cheng Huang <ancheng@vyatta.com>  Fri, 10 Apr 2009 19:18:32 -0700
+
 live-initramfs (1.157.1-1+vyatta+1) unstable; urgency=low
 
   [ rbalocca ]
