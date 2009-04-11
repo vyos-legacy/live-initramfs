@@ -366,6 +366,11 @@ find_cow_device ()
 					then
 						echo $(setup_loop "${pers_fpath}" "loop" "/sys/block/loop*")
 						return 0
+					elif [ -d "${pers_fpath}" ]
+					then
+						# it's a directory. use it directly.
+						echo "${pers_fpath}"
+						return 0
 					else
 						umount ${cow_backing}
 					fi

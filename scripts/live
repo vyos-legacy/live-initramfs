@@ -1213,6 +1213,11 @@ setup_unionfs ()
 			cowdevice=${cowprobe}
 			cow_fstype=$(get_fstype "${cowprobe}")
 			cow_mountopt="rw,noatime"
+		elif [ -d "${cowprobe}" ]
+		then
+			# it's a directory. use it directly.
+			cowdevice=${cowprobe}
+			cow_fstype=dir
 		else
 			log_warning_msg "Unable to find the persistent medium"
 			cowdevice="tmpfs"
@@ -1250,6 +1255,10 @@ setup_unionfs ()
 			"Trying nfsmount ${nfs_cow_opts} ${cowdevice} /cow"
 		nfsmount ${nfs_cow_opts} ${cowdevice} /cow || \
 			panic "Can not mount ${cowdevice} (n: ${cow_fstype}) on /cow"
+	elif [ "${cow_fstype}" = "dir" ]
+	then
+		# it's a directory
+		mount -o bind ${cowdevice} /cow
 	else
 		mount -t ${cow_fstype} -o ${cow_mountopt} ${cowdevice} /cow || \
 			panic "Can not mount ${cowdevice} (o: ${cow_fstype}) on /cow"
