@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+3) unstable; urgency=low
+
+  * UNRELEASED
+
+ -- An-Cheng Huang <ancheng@vyatta.com>  Fri, 29 May 2009 18:34:04 -0700
+
 live-initramfs (1.157.1-1+vyatta+2) unstable; urgency=low
 
   * fix breakage when r/o and r/w images are on the same partition
