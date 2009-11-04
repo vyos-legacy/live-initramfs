@@ -29,7 +29,7 @@ install: test build
 
 	# Installing executables
 	mkdir -p $(DESTDIR)/sbin
-	cp bin/live-getty bin/live-login bin/live-new-uuid bin/live-snapshot $(DESTDIR)/sbin
+	cp bin/live-getty bin/live-login bin/live-new-uuid bin/live-snapshot bin/live-swapfile $(DESTDIR)/sbin
 
 	mkdir -p $(DESTDIR)/usr/share/live-initramfs
 	cp bin/live-preseed bin/live-reconfigure contrib/languagelist $(DESTDIR)/usr/share/live-initramfs
@@ -76,7 +76,7 @@ uninstall:
 	rm -f $(DESTDIR)/etc/live.conf
 
 	# Uninstalling executables
-	rm -f $(DESTDIR)/sbin/live-getty $(DESTDIR)/sbin/live-login $(DESTDIR)/sbin/live-snapshot
+	rm -f $(DESTDIR)/sbin/live-getty $(DESTDIR)/sbin/live-login $(DESTDIR)/sbin/live-snapshot $(DESTDIR)/sbin/live-swapfile
 	rm -rf $(DESTDIR)/usr/share/live-initramfs
 	rm -f $(DESTDIR)/usr/share/initramfs-tools/hooks/live
 	rm -rf $(DESTDIR)/usr/share/initramfs-tools/scripts/live*
@@ -113,15 +113,6 @@ uninstall:
 	rm -f $(DESTDIR)/usr/share/man/man7/live-login.7.gz
 
 update:
-	set -e; for FILE in docs/parameters.txt; \
-	do \
-		sed -i	-e 's/2007\\-11\\-19/2007\\-11\\-26/' \
-			-e 's/2007-11-19/2007-11-26/' \
-			-e 's/19.11.2007/26.11.2007/' \
-			-e 's/1.113.1/1.113.2/' \
-		$$FILE; \
-	done
-
 	# Update language list
 	wget -O "contrib/languagelist" \
 		"http://svn.debian.org/viewsvn/*checkout*/d-i/trunk/packages/localechooser/languagelist"
