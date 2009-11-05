@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+4) unstable; urgency=low
+
+  * add md device support for live boot
+
+ -- An-Cheng Huang <ancheng@vyatta.com>  Wed, 04 Nov 2009 16:46:59 -0800
+
 live-initramfs (1.157.1-1+vyatta+3) unstable; urgency=low
 
   * UNRELEASED
