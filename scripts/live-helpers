@@ -293,24 +293,41 @@ try_mount ()
 
 	old_mountp="$(where_is_mounted ${dev})"
 
+	devname=${dev##/dev/}
+	if grep -q "^md.* $devname\[" /proc/mdstat; then
+		# don't try to mount if it's already part of an md device
+		return 1
+	fi
+
 	if [ -n "${old_mountp}" ]
 	then
 		if [ "${opts}" != "ro" ]
 		then
-			mount -o remount,"${opts}" "${dev}" "${old_mountp}" || panic "Remounting ${dev} ${opts} on ${old_mountp} failed"
+			if ! mount -o remount,"${opts}" "${dev}" "${old_mountp}" \
+					>/dev/null 2>&1; then
+				# DONT panic "Remounting ${dev} ${opts} on ${old_mountp} failed"
+				return 1
+			fi
 		fi
 
 		if ! already_mounted "${dev}" "${mountp}"; then
-			mount -o bind "${old_mountp}" "${mountp}" \
-				|| panic "Cannot bind-mount ${old_mountp} on ${mountp}"
+			if ! mount -o bind "${old_mountp}" "${mountp}" >/dev/null 2>&1; then
+				# DONT panic "Cannot bind-mount ${old_mountp} on ${mountp}"
+				return 1
+			fi
 		fi
 	else
 		if [ -z "${fstype}" ]
 		then
 			fstype=$(get_fstype "${dev}")
 		fi
-		mount -t "${fstype}" -o "${opts}" "${dev}" "${mountp}" || panic "Cannot mount ${dev} on ${mountp}, fstype=${fstype}, options=${opts}"
+		if ! mount -t "${fstype}" -o "${opts}" "${dev}" "${mountp}" \
+				>/dev/null 2>&1; then
+			# DONT panic "Cannot mount ${dev} on ${mountp}, ${fstype}, ${opts}"
+			return 1
+		fi
 	fi
+	return 0
 }
 
 find_cow_device ()

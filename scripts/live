@@ -584,7 +584,6 @@ mount_images_in_directory ()
 	rootmnt="${2}"
 	mac="${3}"
 
-
 	if match_files_in_dir "${directory}/${LIVE_MEDIA_PATH}/*.squashfs" ||
 		match_files_in_dir "${directory}/${LIVE_MEDIA_PATH}/*.ext2" ||
 		match_files_in_dir "${directory}/${LIVE_MEDIA_PATH}/*.ext3" ||
@@ -608,6 +607,11 @@ is_nice_device ()
 		return 0
 	elif echo "${sysfs_path}" | grep -q '^/block/vd[a-z]$'
 	then
+		return 0
+	fi
+
+	# check for md devices
+	if echo "${sysfs_path}" | grep -q '^/block/md[0-9]\+$'; then
 		return 0
 	fi
 
@@ -1538,8 +1542,11 @@ integrity_check ()
 
 mountroot ()
 {
-        if [ -x /scripts/local-top/cryptroot ]; then
-	    /scripts/local-top/cryptroot
+	if [ -x /scripts/local-top/mdadm ]; then
+		/scripts/local-top/mdadm
+	fi
+	if [ -x /scripts/local-top/cryptroot ]; then
+		/scripts/local-top/cryptroot
 	fi
 
 	exec 6>&1
