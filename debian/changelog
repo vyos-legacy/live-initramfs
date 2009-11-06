@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+5) unstable; urgency=low
+
+  * add vyatta-union kernel cmdline arg
+
+ -- An-Cheng Huang <ancheng@vyatta.com>  Fri, 06 Nov 2009 13:46:17 -0800
+
 live-initramfs (1.157.1-1+vyatta+4) unstable; urgency=low
 
   * add md device support for live boot
