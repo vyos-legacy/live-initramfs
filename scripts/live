@@ -475,6 +475,20 @@ Arguments ()
 				XVIDEOMODE="${ARGUMENT#xvideomode=}"
 				export XVIDEOMODE
 				;;
+
+			vyatta-union=*)
+				# vyatta union boot
+				LIVE_MEDIA_PATH="${ARGUMENT#vyatta-union=}"
+				PERSISTENT_PATH="$LIVE_MEDIA_PATH"
+				PERSISTENT="Yes"
+				export LIVE_MEDIA_PATH PERSISTENT_PATH PERSISTENT
+				NOAUTOLOGIN="Yes"
+				NONETWORKING="Yes"
+				NOUSER="Yes"
+				HOSTNAME="vyatta"
+				LIVECONF="changed"
+				export NOAUTOLOGIN NONETWORKING NOUSER HOSTNAME LIVECONF
+				;;
 		esac
 	done
 
