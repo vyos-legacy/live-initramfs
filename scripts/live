@@ -1320,6 +1320,12 @@ setup_unionfs ()
 	touch /etc/fstab
 	mkdir -p "${rootmnt}/live"
 	mount -t tmpfs tmpfs ${rootmnt}/live
+  
+	if [ -z "$NOFSTAB" ]; then
+		# the fstab will have /tmp entry with tmpfs.
+		# mount it here so early init after pivot will use the same /tmp.
+		mount -t tmpfs -o nosuid,nodev tmpfs ${rootmnt}/tmp
+	fi
 
 	# Adding other custom mounts
 	if [ -n "${PERSISTENT}" ] && [ -z "${NOPERSISTENT}" ]
