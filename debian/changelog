@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+6) unstable; urgency=low
+
+  * eliminate /tmp inconsistency during early init
+
+ -- An-Cheng Huang <ancheng@vyatta.com>  Tue, 10 Nov 2009 14:12:37 -0800
+
 live-initramfs (1.157.1-1+vyatta+5) unstable; urgency=low
 
   * add vyatta-union kernel cmdline arg
