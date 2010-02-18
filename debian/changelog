@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+7) unstable; urgency=low
+
+  * UNRELEASED
+
+ -- An-Cheng Huang <ancheng@vyatta.com>  Wed, 17 Feb 2010 16:11:21 -0800
+
 live-initramfs (1.157.1-1+vyatta+6) unstable; urgency=low
 
   * eliminate /tmp inconsistency during early init
