@@ -73,6 +73,18 @@ then
 	uuidgen -r > "${DESTDIR}"/conf/uuid.conf
 fi
 
+# Network firmware
+if [ -d /lib/firmware ]
+then
+    mkdir -p ${DESTDIR}/lib/firmware/
+    for DIR in acenic bnx2 qlogic bnx2x
+    do KDIR=/lib/firmware/$(uname -r)/${DIR}
+       if [ -d $KDIR ]
+       then cp -rp $KDIR ${DESTDIR}/lib/firmware
+       fi
+    done
+fi
+
 # Filesystem: cifs
 if [ -x /sbin/mount.cifs ]
 then
