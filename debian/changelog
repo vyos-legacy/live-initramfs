@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+7+larkspur3) unstable; urgency=low
+
+  * Revert "Put kernel network card firmware in initramfs"
+
+ -- Stephen Hemminger <stephen.hemminger@vyatta.com>  Sat, 07 Aug 2010 12:36:32 -0700
+
 live-initramfs (1.157.1-1+vyatta+7+larkspur2) unstable; urgency=low
 
   * Put kernel network card firmware in initramfs
