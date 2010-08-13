@@ -1,3 +1,10 @@
+live-initramfs (1.157.1-1+vyatta+7+larkspur4) unstable; urgency=low
+
+  * Bugfix 5685: Allow live script to mount root from a CCISS RAID
+    controller.
+
+ -- Bob Gilligan <gilligan@vyatta.com>  Fri, 13 Aug 2010 15:41:25 -0700
+
 live-initramfs (1.157.1-1+vyatta+7+larkspur3) unstable; urgency=low
 
   * Revert "Put kernel network card firmware in initramfs"
