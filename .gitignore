@@ -5,6 +5,7 @@ debian/files
 debian/live-initramfs.debhelper.log
 debian/live-initramfs.postinst.debhelper
 debian/live-initramfs.postrm.debhelper
+debian/live-initramfs.substvars
 debian/live-initramfs/
 manpages/html-stamp
 manpages/live-initramfs.en.7

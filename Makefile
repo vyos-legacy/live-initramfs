@@ -20,7 +20,6 @@ test:
 	fi
 
 build:
-	$(MAKE) -C manpages
 
 install: test build
 	# Installing configuration
@@ -44,32 +43,6 @@ install: test build
 	mkdir -p $(DESTDIR)/usr/share/doc/live-initramfs/examples
 	cp -r conf/* $(DESTDIR)/usr/share/doc/live-initramfs/examples
 
-	# Installing manpages
-	set -e; for MANPAGE in manpages/*.en.1; \
-	do \
-		install -D -m 0644 $$MANPAGE $(DESTDIR)/usr/share/man/man1/`basename $$MANPAGE .en.1`.1; \
-	done
-
-	set -e; for MANPAGE in manpages/*.en.7; \
-	do \
-		install -D -m 0644 $$MANPAGE $(DESTDIR)/usr/share/man/man7/`basename $$MANPAGE .en.7`.7; \
-	done
-
-	set -e; for TRANSLATIONS in $$TRANSLATIONS; \
-	do \
-		for MANPAGE in manpages/*.$$TRANSLATION.1; \
-		do \
-			install -D -m 0644 $$MANPAGE $(DESTDIR)/usr/share/man/$$TRANSLATION/man1/`basename $$MANPAGE .$$TRANSLATION.1`.1; \
-		done; \
-		for MANPAGE in manpages/*.$$TRANSLATION.7; \
-		do \
-			install -D -m 0644 $$MANPAGE $(DESTDIR)/usr/share/man/$$TRANSLATION/man7/`basename $$MANPAGE .$$TRANSLATION.7`.7; \
-		done; \
-	done
-
-	# Temporary symlinks
-	ln -sf live-initramfs.7.gz $(DESTDIR)/usr/share/man/man7/live-getty.7.gz
-	ln -sf live-initramfs.7.gz $(DESTDIR)/usr/share/man/man7/live-login.7.gz
 
 uninstall:
 	# Uninstalling configuration
@@ -85,32 +58,6 @@ uninstall:
 	# Uninstalling documentation
 	rm -rf $(DESTDIR)/usr/share/doc/live-initramfs
 
-	# Uninstalling manpages
-	set -e; for MANPAGE in manpages/*.en.1; \
-	do \
-		rm -f $(DESTDIR)/usr/share/man/man1/`basename $$MANPAGE .en.1`.1; \
-	done
-
-	set -e; for MANPAGE in manpages/*.en.7; \
-	do \
-		rm -f $(DESTDIR)/usr/share/man/man7/`basename $$MANPAGE .en.7`.7; \
-	done
-
-	set -e; for TRANSLATIONS in $$TRANSLATIONS; \
-	do \
-		for MANPAGE in manpages/*.$$TRANSLATION.1; \
-		do \
-			install -D -m 0644 $$MANPAGE $(DESTDIR)/usr/share/man/$$TRANSLATION/man1/`basename $$MANPAGE .$$TRANSLATION.1`.1; \
-		done; \
-		for MANPAGE in manpages/*.$$TRANSLATION.7; \
-		do \
-			install -D -m 0644 $$MANPAGE $(DESTDIR)/usr/share/man/$$TRANSLATION/man7/`basename $$MANPAGE .$$TRANSLATION.7`.7; \
-		done; \
-	done
-
-	# Temporary symlinks
-	rm -f $(DESTDIR)/usr/share/man/man7/live-getty.7.gz
-	rm -f $(DESTDIR)/usr/share/man/man7/live-login.7.gz
 
 update:
 	set -e; for FILE in docs/parameters.txt; \
@@ -127,7 +74,6 @@ update:
 		"http://svn.debian.org/viewsvn/*checkout*/d-i/trunk/packages/localechooser/languagelist"
 
 clean:
-	$(MAKE) -C manpages clean
 
 distclean:
 

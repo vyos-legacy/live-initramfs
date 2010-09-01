@@ -5,15 +5,11 @@ clean:
 	dh_testroot
 	rm -f build-stamp
 
-	$(MAKE) -C manpages clean
-
 	dh_clean
 
 build: build-stamp
 build-stamp:
 	dh_testdir
-
-	$(MAKE) -C manpages
 
 	touch build-stamp
 
@@ -46,6 +42,7 @@ binary-indep: install
 	dh_installdocs
 	dh_install
 	dh_installinit --no-restart-on-upgrade --no-start -- start 89 0 6 .
+	dh_lintian
 	dh_compress
 	dh_fixperms
 	dh_installdeb
