@@ -176,3 +176,11 @@ if [ -x /usr/bin/curlftpfs ]
 then
 	copy_exec /usr/bin/curlftpfs /bin
 fi
+
+# squeeze udev hook no longer copies certain programs into initrd, so
+# do it here.
+mkdir -p $DESTDIR/lib/udev/
+for program in cdrom_id; do
+  copy_exec /lib/udev/$program /lib/udev
+done
+
