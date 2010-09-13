@@ -117,7 +117,6 @@ then
 	really_export LANG
 
 	printf 'LANG="%s"\n' "${LANG}" > /root/etc/default/locale
-	printf 'LANG="%s"\n' "${LANG}" > /root/etc/environment
 	printf '%s %s\n' "${LANG}" "${codepage}" > /root/etc/locale.gen
 
 	if [ -z "${SILENT}" ]
