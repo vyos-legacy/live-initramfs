@@ -22,4 +22,8 @@ else
 	DPKG_MAINTSCRIPT_PACKAGE="" update-initramfs ${INITRAMFS_ARGS}
 fi
 
+# remove init links first. debhelper will generate the update-rc.d to install
+# the new links.
+update-rc.d -f live-initramfs remove >/dev/null
+
 #DEBHELPER#

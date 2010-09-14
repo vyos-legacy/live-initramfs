@@ -41,7 +41,7 @@ binary-indep: install
 	dh_installchangelogs docs/ChangeLog
 	dh_installdocs
 	dh_install
-	dh_installinit --no-restart-on-upgrade --no-start -- start 89 0 6 .
+	dh_installinit --no-restart-on-upgrade --no-start -- stop 89 0 6 .
 	dh_lintian
 	dh_compress
 	dh_fixperms
