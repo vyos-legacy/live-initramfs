@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+16) unstable; urgency=low
+
+  * new branch
+
+ -- An-Cheng Huang <ancheng@vyatta.com>  Tue, 28 Dec 2010 20:43:16 +0000
+
 live-initramfs (1.157.1-1+vyatta+15) unstable; urgency=low
 
   * fix for bug 6193
