@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+17) unstable; urgency=low
+
+  * fix bug 7223: image-install incompatible with Xen virt
+
+ -- Robert Bays <robert@vyatta.com>  Sun, 26 Jun 2011 11:50:17 -0700
+
 live-initramfs (1.157.1-1+vyatta+16) unstable; urgency=low
 
   * new branch
