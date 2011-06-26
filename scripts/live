@@ -634,6 +634,11 @@ is_nice_device ()
 		return 0
 	fi
 
+        # Check for Xen devices
+        if echo "${sysfs_path}" | grep -q '^/block/xvd[a-z][0-9]*$'; then
+                return 0
+        fi
+
 	return 1
 }
 
