@@ -1051,6 +1051,48 @@ try_snap ()
 	return 0
 }
 
+
+do_union ()
+{
+        local unionmountpoint="${1}"    # directory where the union is mounted
+        local unionrw="${2}"            # branch where the union changes are stored
+        local unionro1="${3}"           # first underlying read-only branch (optional)
+        local unionro2="${4}"           # second underlying read-only branch (optional)
+
+        case "${UNIONTYPE}" in
+                aufs)
+                        rw_opt="rw"
+                        ro_opt="rr+wh"
+                        noxino_opt="noxino"
+                        ;;
+
+                *)
+                        rw_opt="rw"
+                        ro_opt="ro"
+                        ;;
+        esac
+
+        case "${UNIONTYPE}" in
+                overlayfs)
+                        unionmountopts="-o noatime,lowerdir=${unionro1},upperdir=${unionrw}"
+                        ;;
+
+                *)
+                        unionmountopts="-o noatime,${noxino_opt},dirs=${unionrw}=${rw_opt}"
+                        if [ -n "${unionro1}" ]
+                        then
+                                unionmountopts="${unionmountopts}:${unionro1}=${ro_opt}"
+                        fi
+                        if [ -n "${unionro2}" ]
+                        then
+                                unionmountopts="${unionmountopts}:${unionro2}=${ro_opt}"
+                        fi
+                        ;;
+        esac
+        mount -t ${UNIONTYPE} ${unionmountopts} ${UNIONTYPE} "${unionmountpoint}" || \
+		panic "mount ${UNIONTYPE} on ${unionmountpoint} failed with option ${unionmountopts}"
+}
+
 setup_unionfs ()
 {
 	image_directory="${1}"
@@ -1314,16 +1356,10 @@ setup_unionfs ()
 
 		for dir in ${cow_dirs}; do
 			mkdir -p /cow${dir}
-			mount -t ${UNIONTYPE} \
-				-o rw,noatime,dirs=/cow${dir}=rw:${exposedrootfs}${dir}=ro \
-				${UNIONTYPE} "${rootmnt}${dir}" || \
-				panic "mount ${UNIONTYPE} on ${rootmnt}${dir} failed with option \
-					rw,noatime,dirs=/cow${dir}=rw:${exposedrootfs}${dir}=ro"
+			do_union "${rootmnt}${dir}" "/cow${dir}" "${exposedrootfs}${dir}"
 		done
 	else
-		mount -t ${UNIONTYPE} -o noatime,dirs=/cow=rw:${rofsstring} \
-			${UNIONTYPE} "${rootmnt}" || panic "mount ${UNIONTYPE} on \
-			${rootmnt} failed with option noatime,dirs=/cow=rw:${rofsstring}"
+		do_union "${rootmnt}" "/cow" "${rofsstring%=*}"
 	fi
 
 	# tmpfs file systems
