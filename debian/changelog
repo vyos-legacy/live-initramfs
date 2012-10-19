@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+21) unstable; urgency=low
+
+  * Add support for overlayfs
+
+ -- James Davidson <james.davidson@vyatta.com>  Fri, 19 Oct 2012 13:44:31 -0700
+
 live-initramfs (1.157.1-1+vyatta+20) unstable; urgency=low
 
   * new branch
