@@ -1076,9 +1076,12 @@ setup_unionfs ()
 		roopt="nfsro"
 	elif [ "${UNIONTYPE}" = "aufs" ]
 	then
-		roopt="rr"
+		roopt="=rr"
+        elif [ "${UNIONTYPE}" = "overlayfs" ]
+        then
+		roopt=""
 	else
-		roopt="ro"
+		roopt="=ro"
 	fi
 
 	# Read image names from ${MODULE}.module if it exists
@@ -1167,7 +1170,7 @@ setup_unionfs ()
 
 			mkdir -p "${croot}/${imagename}"
 			log_begin_msg "Mounting \"${image}\" on \"${croot}${imagename}\" via \"${backdev}\""
-			mount -t "${fstype}" -o ro,noatime "${backdev}" "${croot}/${imagename}" || panic "Can not mount ${backdev} (${image}) on ${croot}/${imagename}" && rofsstring="${croot}/${imagename}=${roopt}:${rofsstring}" && rofslist="${croot}/${imagename} ${rofslist}"
+			mount -t "${fstype}" -o ro,noatime "${backdev}" "${croot}/${imagename}" || panic "Can not mount ${backdev} (${image}) on ${croot}/${imagename}" && rofsstring="${croot}/${imagename}${roopt}:${rofsstring}" && rofslist="${croot}/${imagename} ${rofslist}"
 			log_end_msg
 		fi
 	done
@@ -1314,16 +1317,28 @@ setup_unionfs ()
 
 		for dir in ${cow_dirs}; do
 			mkdir -p /cow${dir}
-			mount -t ${UNIONTYPE} \
-				-o rw,noatime,dirs=/cow${dir}=rw:${exposedrootfs}${dir}=ro \
-				${UNIONTYPE} "${rootmnt}${dir}" || \
-				panic "mount ${UNIONTYPE} on ${rootmnt}${dir} failed with option \
-					rw,noatime,dirs=/cow${dir}=rw:${exposedrootfs}${dir}=ro"
+                        if [ ${UNIONTYPE} == "overlayfs" ]; then
+                        	mount -t ${UNIONTYPE} \
+					-o noatime,lowerdir=${exposedrootfs}${dir},upperdir=/cow/${dir} overlayfs "${rootmnt}${dir}" || \
+					panic "mount ${UNIONTYPE} on ${rootmnt}${dir} failed with option noatime,lowerdir=${exposedrootfs}${dir},upperdir=/cow/${dir}"
+                        else
+				mount -t ${UNIONTYPE} \
+			  		-o rw,noatime,dirs=/cow${dir}=rw:${exposedrootfs}${dir}=ro \
+			  		${UNIONTYPE} "${rootmnt}${dir}" || \
+					panic "mount ${UNIONTYPE} on ${rootmnt}${dir} failed with option \
+						rw,noatime,dirs=/cow${dir}=rw:${exposedrootfs}${dir}=ro"
+                        fi
 		done
 	else
-		mount -t ${UNIONTYPE} -o noatime,dirs=/cow=rw:${rofsstring} \
-			${UNIONTYPE} "${rootmnt}" || panic "mount ${UNIONTYPE} on \
-			${rootmnt} failed with option noatime,dirs=/cow=rw:${rofsstring}"
+		if [ ${UNIONTYPE} == "overlayfs" ]; then
+			mount -t ${UNIONTYPE} -o noatime,lowerdir=${rofsstring},upperdir=/cow \
+				overlayfs "${rootmnt}" || \
+				panic "mount ${UNIONTYPE} failed with option noatime,lowerdir=${rofsstring},upperdir=/cow"
+		else
+			mount -t ${UNIONTYPE} -o noatime,dirs=/cow=rw:${rofsstring} \
+				${UNIONTYPE} "${rootmnt}" || panic "mount ${UNIONTYPE} on \
+				${rootmnt} failed with option noatime,dirs=/cow=rw:${rofsstring}"
+		fi
 	fi
 
 	# tmpfs file systems
