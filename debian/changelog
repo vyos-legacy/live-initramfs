@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyatta+20+hydrogen2) unstable; urgency=low
+
+  * Bug #187: make initramfs boot failure message VyOS specific.
+
+ -- Daniil Baturin <daniil@baturin.org>  Sun, 27 Apr 2014 02:32:02 +0200
+
 live-initramfs (1.157.1-1+vyatta+20+hydrogen1) unstable; urgency=low
 
   * New branch
