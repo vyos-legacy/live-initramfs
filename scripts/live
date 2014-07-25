@@ -629,6 +629,11 @@ is_nice_device ()
 		return 0
 	fi
 
+        # check for mmcblk devices
+        if echo "${sysfs_path}" | grep -q '^/block/mmcblk[0-9]\+$'; then
+                return 0
+        fi
+
 	# Check for CCISS devices
 	if echo "${sysfs_path}" | grep -q '^/block/cciss!c[0-9]\+d[0-9]\+$'; then
 		return 0
