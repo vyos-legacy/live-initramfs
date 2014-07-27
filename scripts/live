@@ -1323,9 +1323,15 @@ setup_unionfs ()
 		for dir in ${cow_dirs}; do
 			mkdir -p /cow${dir}
                         if [ ${UNIONTYPE} == "overlayfs" ]; then
-                        	mount -t ${UNIONTYPE} \
-					-o noatime,lowerdir=${exposedrootfs}${dir},upperdir=/cow/${dir} overlayfs "${rootmnt}${dir}" || \
-					panic "mount ${UNIONTYPE} on ${rootmnt}${dir} failed with option noatime,lowerdir=${exposedrootfs}${dir},upperdir=/cow/${dir}"
+                        	if ! mount -t ${UNIONTYPE} \
+					-o noatime,lowerdir=${exposedrootfs}${dir},upperdir=/cow/${dir} overlayfs "${rootmnt}${dir}"; then
+					echo "mount ${UNIONTYPE} on ${rootmnt}${dir} failed with option noatime,lowerdir=${exposedrootfs}${dir},upperdir=/cow/${dir} trying with workdir option"
+					mkdir -p /cow/cow${dir}
+					mkdir -p /cow/work${dir}
+					mount -t ${UNIONTYPE} \
+						overlayfs -o noatime,lowerdir=${exposedrootfs}${dir},upperdir=/cow/cow/${dir},workdir=/cow/work/${dir} "${rootmnt}${dir}" || \
+						panic "mount ${UNIONTYPE} on ${rootmnt}${dir} failed with option noatime,lowerdir=${exposedrootfs}${dir},upperdir=/cow/cow${dir},workdir=/cow/work/${dir}"
+				fi
                         else
 				mount -t ${UNIONTYPE} \
 			  		-o rw,noatime,dirs=/cow${dir}=rw:${exposedrootfs}${dir}=ro \
@@ -1336,9 +1342,15 @@ setup_unionfs ()
 		done
 	else
 		if [ ${UNIONTYPE} == "overlayfs" ]; then
-			mount -t ${UNIONTYPE} -o noatime,lowerdir=${rofsstring},upperdir=/cow \
-				overlayfs "${rootmnt}" || \
-				panic "mount ${UNIONTYPE} failed with option noatime,lowerdir=${rofsstring},upperdir=/cow"
+			if ! mount -t ${UNIONTYPE} -o noatime,lowerdir=${rofsstring},upperdir=/cow \
+				overlayfs "${rootmnt}"; then
+				echo "mount ${UNIONTYPE} failed with option noatime,lowerdir=${rofsstring},upperdir=/cow trying with workdir option"
+				mkdir -p /cow/cow
+				mkdir -p /cow/work
+				mount -t ${UNIONTYPE} overlayfs -o noatime,lowerdir=${rofsstring},upperdir=/cow/cow,workdir=/cow/work \
+                                	"${rootmnt}" || \
+					panic "mount ${UNIONTYPE} failed with option noatime,lowerdir=${rofsstring},upperdir=/cow/cow,workdir=/cow/work"
+			fi
 		else
 			mount -t ${UNIONTYPE} -o noatime,dirs=/cow=rw:${rofsstring} \
 				${UNIONTYPE} "${rootmnt}" || panic "mount ${UNIONTYPE} on \
