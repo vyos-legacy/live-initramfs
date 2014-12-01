@@ -1,3 +1,9 @@
+live-initramfs (1.157.1-1+vyos2+lithium1) unstable; urgency=low
+
+  * New branch
+
+ -- Alex Harpin <development@landsofshadow.co.uk>  Mon, 01 Dec 2014 19:43:56 +0000
+ 
 live-initramfs (1.157.1-1+vyos1+helium3) unstable; urgency=low
 
   [ UnicronNL ]
