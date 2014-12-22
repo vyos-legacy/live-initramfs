@@ -1,7 +1,7 @@
 Source: live-initramfs
 Section: misc
 Priority: optional
-Maintainer: Vyatta Package Maintainers <maintainers@vyatta.com>
+Maintainer: VyOS Package Maintainers <maintainers@vyos.net>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.8.0
 Homepage: http://debian-live.alioth.debian.org/
