@@ -1,3 +1,10 @@
+live-initramfs (1.157.1-1+vyos1+helium4) unstable; urgency=low
+
+  * Set up networking before doing netbooting.
+  * Fix tftp:// URLs in fetch=
+
+ -- Davide Gianino <davidegianino@fico.com>  Sat, 03 Sep 2016 22:11:17 +0000
+
 live-initramfs (1.157.1-1+vyos1+helium3) unstable; urgency=low
 
   [ UnicronNL ]
