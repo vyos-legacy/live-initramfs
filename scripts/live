@@ -726,6 +726,8 @@ copy_live_to ()
 
 do_netmount ()
 {
+	[ -n "$DEVICE" ] || configure_networking
+
 	rc=1
 
 	modprobe -q af_packet # For DHCP
